@@ -28,3 +28,16 @@ spring:
       max-request-size: 1000MB
   mvc:
     static-path-pattern: /static/**
+#  security:
+#    user:
+#      name: admin
+#      password: admin
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+
+jianz:
+  jwt:
+    header: Authorization
+    expire: 604800 #7天
+    secret: ji8n3439n439n43ld9ne9343fdfer49h

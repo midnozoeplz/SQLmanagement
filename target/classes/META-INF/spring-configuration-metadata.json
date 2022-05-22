@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "jianz.jwt",
+      "type": "com.jianz.SQLmanagement.utils.JwtUtils",
+      "sourceType": "com.jianz.SQLmanagement.utils.JwtUtils"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jianz.jwt.expire",
+      "type": "java.lang.Long",
+      "sourceType": "com.jianz.SQLmanagement.utils.JwtUtils"
+    },
+    {
+      "name": "jianz.jwt.header",
+      "type": "java.lang.String",
+      "sourceType": "com.jianz.SQLmanagement.utils.JwtUtils"
+    },
+    {
+      "name": "jianz.jwt.secret",
+      "type": "java.lang.String",
+      "sourceType": "com.jianz.SQLmanagement.utils.JwtUtils"
+    }
+  ],
+  "hints": []
+}
