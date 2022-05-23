@@ -3,6 +3,7 @@ package com.jianz.SQLmanagement.security;
 import cn.hutool.json.JSONUtil;
 import com.jianz.SQLmanagement.pojo.ResultBody;
 import com.jianz.SQLmanagement.utils.JwtUtils;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -43,5 +44,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         outputStream.flush();
         outputStream.close();
     }
+
 
 }

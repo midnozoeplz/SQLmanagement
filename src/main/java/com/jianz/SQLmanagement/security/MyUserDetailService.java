@@ -38,8 +38,8 @@ public class MyUserDetailService implements UserDetailsService {
         Role role = userDao.getRoleByUid(user.getId());
         List<Role> roles = new ArrayList<>();
         roles.add(role);
-        user.setRoles(roles);
 
-        return user;
+        AccountUser accountUser = new AccountUser(user,roles);
+        return accountUser;
     }
 }
