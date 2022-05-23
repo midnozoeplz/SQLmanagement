@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
         Map<String, String> map =  new HashMap<>();
         map.put("token",jwt);
         //把完整的用户信息存入redis，userid作为key
-        redisUtil.set("login:"+userid,loginUser,1200);
+        redisUtil.setCacheObject("login:"+userid,loginUser,1200);
 
         return ResultBody.success(map);
     }
