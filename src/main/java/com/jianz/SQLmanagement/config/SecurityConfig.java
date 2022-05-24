@@ -61,26 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/webjars/**",
             "/swagger-resources/configuration/ui",
             "/swagge‌​r-ui.html", //swaager的配置资源
-            "/login",
-            "/logout",
-            "/captcha",
             "/favicon.ico",
-            "/sys/user/register",//注册接口
-            "/location/map",//定位接口
-            "/delay",
-            "/sys/register/list",
-            "/sys/register/registering",
-            "/sys/register/finishall",
-            "/sys/register/clear",
-            "/sys/register/email",
-            "/sys/register/report",
-            "/sys/register/dead",
-            "/getZipFile",
-            "/mqtt",
-            "/sys/file/loginbg",
-            "/sys/file/homebg",
-            "/register",
-            "/login"
+            "/user/register",
+            "/" +
+                    "user/login"
     };
 
     @Override

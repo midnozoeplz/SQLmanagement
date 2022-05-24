@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,13 +43,19 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RedisUtil redisUtil;
 
-    public void insertUser(User user){
-        String encode = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encode);
+    public boolean insertUser(User user) {
+        User daoUser = userDao.findUser(user.getUsername());
+        if (ObjectUtils.isEmpty(daoUser)) {
+            String encode = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encode);
 
-        userDao.insertUser(user);
-        System.out.println(user.getId());
-        userDao.setRole(user.getId());
+            userDao.insertUser(user);
+//            System.out.println(userDao.getUserId(user.getUsername()));
+            userDao.setRole(userDao.getUserId(user.getUsername()));
+            return true;
+        } else {
+            throw new RuntimeException("用户名重复");
+        }
     }
 
     @Override
@@ -71,5 +78,16 @@ public class UserServiceImpl implements UserService {
         redisUtil.setCacheObject("login:"+userid,loginUser,1200);
 
         return ResultBody.success(map);
+    }
+
+    @Override
+    public ResultBody logout() {
+        //获取SecurityContextHolder中的用户id
+        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        AccountUser loginUser = (AccountUser) authentication.getPrincipal();
+        Integer userid = loginUser.getUser().getId();
+        //删除redis中的值
+        redisUtil.del("login:"+userid);
+        return ResultBody.success("注销成功");
     }
 }

@@ -23,4 +23,8 @@ public interface UserDao {
 
     // 备注：使用@Param来确保在xml里能通过#{}来获取的到
     void setRole(@Param("uid") Integer uid);
+
+    Integer getUserId(String username);
+    // 保证用户名的唯一性
+    User findUser(String username);
 }

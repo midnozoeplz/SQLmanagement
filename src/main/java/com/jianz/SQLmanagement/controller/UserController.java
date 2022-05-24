@@ -4,9 +4,7 @@ import com.jianz.SQLmanagement.pojo.ResultBody;
 import com.jianz.SQLmanagement.pojo.User;
 import com.jianz.SQLmanagement.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Jianz
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date 2022/5/21 17:18
  */
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -46,4 +45,17 @@ public class UserController {
 
          return ResultBody.success(userService.login(user));
      }
+
+      /**
+       * @author Jianz
+       * @Description logout注销接口
+       * @Return
+       * @Date 2022/5/24 10:31
+       */
+      @RequestMapping("/logout")
+    public ResultBody logout(){
+         return userService.logout();
+      }
+
+
 }

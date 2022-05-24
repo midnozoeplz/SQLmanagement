@@ -11,7 +11,9 @@ import com.jianz.SQLmanagement.pojo.User;
  * @Date 2022/5/23 0:52
  */
 public interface UserService {
-    void insertUser(User user);
+    boolean insertUser(User user);
 
     ResultBody login(User user);
+
+    ResultBody logout();
 }
