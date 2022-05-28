@@ -8,11 +8,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -24,6 +27,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity
+//开启权限注解，且在请求之前进行校验
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -35,9 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtLogoutSuccessHandler jwtLogoutSuccessHandler;
     @Autowired
-    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private AuthenticationEntryPointImpl authenticationEntryPoint;
     @Autowired
-    private JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private AccessDeniedHandlerImpl accessDeniedHandler;
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
@@ -63,14 +68,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagge‌​r-ui.html", //swaager的配置资源
             "/favicon.ico",
             "/user/register",
-            "/" +
-                    "user/login"
+            "/user/login"
     };
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder builder) throws Exception{
-        builder.userDetailsService(myUserDetailService);
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder builder) throws Exception{
+//        builder.userDetailsService(myUserDetailService);
+//    }
 
 //    @Test
 //    public void test(){
@@ -88,7 +92,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 //关闭csrf
                 .csrf().disable()
-
                 // 禁用session
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -102,12 +105,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 配置自定义的过滤器
                 .and()
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+
+                // 配置异常处理器
+                .exceptionHandling()
+                //配置认证失败处理器
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler)
+
+                //允许跨域
+                .and().cors()
         ;
     }
 
     @Bean
     @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }

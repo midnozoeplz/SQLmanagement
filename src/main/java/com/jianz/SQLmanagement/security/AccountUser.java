@@ -1,5 +1,6 @@
 package com.jianz.SQLmanagement.security;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.jianz.SQLmanagement.pojo.Role;
 import com.jianz.SQLmanagement.pojo.User;
 import lombok.AllArgsConstructor;
@@ -8,33 +9,47 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Jianz
  * @version 1.0
- * @Description
+ * @Description TODO
  * @Email jianz8153.gmail.com
  * @Date 2022/5/22 21:06
  */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class AccountUser implements UserDetails {
-
     private User user;
 
-    private List<Role> roles = new ArrayList<>(); // 关系属性，用来储存当前用户所有角色信息
+    private List<String> permissions;
 
-    //  返回权限信息
+    public AccountUser(User user, List<String> permissions) {
+        this.user = user;
+        this.permissions = permissions;
+    }
+    @JSONField(serialize = false)
+    private List<SimpleGrantedAuthority> authorities;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        roles.forEach(role -> {
-            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.getName());
-            authorities.add(simpleGrantedAuthority);
-        });
+        if(authorities!=null){
+            return authorities;
+        }
+        //把permissions中String类型的权限信息封装成SimpleGrantedAuthority对象
+//       authorities = new ArrayList<>();
+//        for (String permission : permissions) {
+//            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(permission);
+//            authorities.add(authority);
+//        }
+        authorities = permissions.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
         return authorities;
     }
 
@@ -68,3 +83,5 @@ public class AccountUser implements UserDetails {
         return true;
     }
 }
+
+

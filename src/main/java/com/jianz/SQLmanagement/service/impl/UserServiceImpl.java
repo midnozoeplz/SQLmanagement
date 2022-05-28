@@ -1,7 +1,10 @@
 package com.jianz.SQLmanagement.service.impl;
 
+import cn.hutool.log.Log;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jianz.SQLmanagement.dao.UserDao;
 import com.jianz.SQLmanagement.pojo.ResultBody;
+import com.jianz.SQLmanagement.pojo.Role;
 import com.jianz.SQLmanagement.pojo.User;
 import com.jianz.SQLmanagement.security.AccountUser;
 import com.jianz.SQLmanagement.service.UserService;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Jianz
@@ -27,7 +31,7 @@ import java.util.Map;
  * @Date 2022/5/22 23:43
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserService {
     @Autowired
     private UserDao userDao;
 
@@ -61,17 +65,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultBody login(User user) {
 
+        // TODO
         // AuthenticationManager authenticate进行用户认证
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         // 如果认证没通过，给出对应提示
         if(ObjectUtils.isEmpty(authenticate)){
-            throw new RuntimeException("登陆失败");
+            throw new RuntimeException("登录失败");
         }
         // 如果认证过了，使用userid生成一个jwt ，jwt存入ResultBody中返回
         AccountUser loginUser = (AccountUser) authenticate.getPrincipal();
         String userid = loginUser.getUser().getId().toString();
-        String jwt = jwtUtils.generateToken(userid);
+        String jwt = JwtUtils.createJWT(userid);
         Map<String, String> map =  new HashMap<>();
         map.put("token",jwt);
         //把完整的用户信息存入redis，userid作为key
@@ -85,9 +90,39 @@ public class UserServiceImpl implements UserService {
         //获取SecurityContextHolder中的用户id
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         AccountUser loginUser = (AccountUser) authentication.getPrincipal();
-        Integer userid = loginUser.getUser().getId();
+        Long userid = loginUser.getUser().getId().longValue();
         //删除redis中的值
         redisUtil.del("login:"+userid);
         return ResultBody.success("注销成功");
+    }
+
+    @Override
+    public User loadUserByUsername(String username) {
+        return userDao.loadUserByUsername(username);
+    }
+
+    @Override
+    public String getUserAuthorityInfo(Long userId) {
+        User user = userDao.loadUserByUserId(userId);
+
+        String authority = "";
+
+        if(redisUtil.hasKey("GrantedAuthority:" + user.getId())){
+            authority = redisUtil.getCacheObject("GrantedAuthority:" + user.getId().toString());
+        } else{
+            Role role = userDao.getUserAuthorityInfo(userId);
+
+            if(ObjectUtils.isNotEmpty(role)){
+                String roleCodes = role.getCode();
+            }
+            redisUtil.setCacheObject("GrantedAuthority:" + user.getId(),authority,60 * 60);
+        }
+
+        return authority;
+    }
+
+    @Override
+    public User loadUserByUserId(Long id) {
+        return userDao.loadUserByUserId(id);
     }
 }

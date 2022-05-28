@@ -1,5 +1,6 @@
 package com.jianz.SQLmanagement.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.jianz.SQLmanagement.pojo.Role;
 import com.jianz.SQLmanagement.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,7 +14,7 @@ import org.apache.ibatis.annotations.Param;
  * @Date 2022/5/21 16:34
  */
 @Mapper
-public interface UserDao {
+public interface UserDao extends BaseMapper<User> {
 
     User loadUserByUsername(String username);
 
@@ -27,4 +28,10 @@ public interface UserDao {
     Integer getUserId(String username);
     // 保证用户名的唯一性
     User findUser(String username);
+
+    //获取权限
+    Role getUserAuthorityInfo(@Param("uid") Long userId);
+
+    //通过id获取用户
+    User loadUserByUserId(@Param("id") Long id);
 }

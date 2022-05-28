@@ -47,6 +47,9 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
+  configuration:
+    #开启驼峰命令
+    map-underscore-to-camel-case: true
 
 jianz:
   jwt:

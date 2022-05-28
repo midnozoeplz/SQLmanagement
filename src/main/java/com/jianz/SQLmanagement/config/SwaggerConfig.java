@@ -16,7 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  * @author Jianz
  * @version 1.0
- * @Description Swagger2配置
+ * @Description Swagger2配置（url: http://localhost:8080/swagger-ui.html）
  * @Email jianz8153.gmail.com
  * @Date 2022/5/21 16:45
  */

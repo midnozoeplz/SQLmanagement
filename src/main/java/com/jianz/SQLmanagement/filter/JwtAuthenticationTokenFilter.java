@@ -1,6 +1,9 @@
 package com.jianz.SQLmanagement.filter;
 
+import com.jianz.SQLmanagement.pojo.User;
 import com.jianz.SQLmanagement.security.AccountUser;
+import com.jianz.SQLmanagement.security.MyUserDetailService;
+import com.jianz.SQLmanagement.service.UserService;
 import com.jianz.SQLmanagement.utils.JwtUtils;
 import com.jianz.SQLmanagement.utils.RedisUtil;
 import io.jsonwebtoken.Claims;
@@ -34,6 +37,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private MyUserDetailService userDetailService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //获取token
@@ -46,19 +55,20 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         //解析token
         String userid;
         try {
-            Claims claims = jwtUtils.getClaimByToken(token);
+            Claims claims = JwtUtils.parseJWT(token);
             userid = claims.getSubject();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("token非法");
         }
-        //从redis中获取用户信息
+//        //从redis中获取用户信息
         String redisKey = "login:" + userid;
-//        System.out.println(redisUtil.getCacheObject(redisKey).getClass());
+////        System.out.println(redisUtil.getCacheObject(redisKey).getClass());
         AccountUser loginUser =  redisUtil.getCacheObject(redisKey);
+        System.out.println(redisUtil.getCacheObject(redisKey).toString());
         if(Objects.isNull(loginUser)){
             throw new RuntimeException("用户未登录");
-        }
+       }
 
         //存入SecurityContextHolder
         //TODO 获取权限信息封装到Authentication中
