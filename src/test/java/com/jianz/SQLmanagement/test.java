@@ -51,15 +51,18 @@ public class test {
     @Test
     public void testProduct(){
 //        Product product = new Product();
-//        product.setProductName("HUAWEI nova 9");
-//        product.setNum(5);
+//        product.setProductId(3);
+//        product.setProductName("HUAWEI nova ");
+//        product.setNum(8);
 //        product.setUnitPrice(2599.00);
-//        product.setPicture("/static/huaweiNova9");
-//        productService.addProduct(product);
-          List<Product> list = productService.getList();
-            for(Product product : list){
-                System.out.println(product);
-            }
+//        product.setPicture("/static/huaweiNova");
+//        productService.addOrUpdateProduct(product);
+//          List<Product> list = productService.addOrUpdateProduct();
+//            for(Product product : list){
+//                System.out.println(product);
+//            }
+
+        productService.deleteProduct(3);
     }
 
     @Test

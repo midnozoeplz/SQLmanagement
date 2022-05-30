@@ -1,9 +1,11 @@
 package com.jianz.SQLmanagement.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jianz.SQLmanagement.dao.ProductMapper;
 import com.jianz.SQLmanagement.pojo.Product;
 import com.jianz.SQLmanagement.service.ProductService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +30,16 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
       * @Return
       * @Date 2022/5/28 16:02
       */
-    public void addProduct(Product product){
+    public void addOrUpdateProduct(Product product){
 
-        productMapper.insert(product);
-
+        LambdaQueryWrapper<Product> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Product::getProductId,product.getProductId());
+        if(ObjectUtils.isNotEmpty(productMapper.selectOne(wrapper))){
+            productMapper.updateById(product);
+        }
+        else {
+            productMapper.insert(product);
+        }
     }
      /**
       * @author Jianz
@@ -42,5 +50,17 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     public List<Product> getList(){
         return  productMapper.selectList(null);
     }
+
+     /**
+      * @author Jianz
+      * @Description admin删除一个商品
+      * @Return
+      * @Date 2022/5/30 14:51
+      */
+     public void deleteProduct(int id){
+         LambdaQueryWrapper<Product> wrapper = new LambdaQueryWrapper<>();
+         wrapper.eq(Product::getProductId,id);
+         productMapper.delete(wrapper);
+     }
 
 }

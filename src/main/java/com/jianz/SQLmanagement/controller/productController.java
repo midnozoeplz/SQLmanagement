@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Jianz
  * @version 1.0
- * @Description 对商品展示管理
+ * @Description admin 对商品展示管理
  * @Email jianz8153.gmail.com
  * @Date 2022/5/28 15:37
  */
@@ -22,10 +22,10 @@ public class productController {
     @Autowired
     private ProductServiceImpl productService;
 
-    @PostMapping("/product/add")
-    public ResultBody addProduct(@RequestBody Product product){
+    @PostMapping("/product/addOrUpdate")
+    public ResultBody addOrUpdateProduct(@RequestBody Product product){
 
-        productService.addProduct(product);
+        productService.addOrUpdateProduct(product);
 
         return ResultBody.success("添加成功");
     }
@@ -38,4 +38,10 @@ public class productController {
         return ResultBody.success(list);
     }
 
+    @PostMapping("/product/delete")
+    public ResultBody delete(int id){
+        productService.deleteProduct(id);
+
+        return ResultBody.success("删除成功");
+    }
 }
