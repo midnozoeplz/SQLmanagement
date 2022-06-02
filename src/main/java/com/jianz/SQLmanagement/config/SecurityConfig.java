@@ -68,7 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagge‌​r-ui.html", //swaager的配置资源
             "/favicon.ico",
             "/user/register",
-            "/user/login"
+            "/user/login",
+            "/img/**",
     };
 
 //    @Override
