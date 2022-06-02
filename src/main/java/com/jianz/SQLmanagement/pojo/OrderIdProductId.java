@@ -2,8 +2,8 @@ package com.jianz.SQLmanagement.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,37 +17,24 @@ import java.io.Serializable;
  * </p>
  *
  * @author jianz
- * @since 2022-05-28
+ * @since 2022-06-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="UserProduct对象", description="")
+@TableName("order_id_Product_id")
+@ApiModel(value="OrderIdProductId对象", description="")
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserProduct implements Serializable {
+public class OrderIdProductId implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "用户id")
-    private Integer userid;
+    private Integer orderId;
 
-    @ApiModelProperty(value = "商品id")
     private Integer productId;
 
-    @ApiModelProperty(value = "商品名")
-    private String productName;
-
-    @ApiModelProperty(value = "价格")
-    private Double price;
-
-    @ApiModelProperty(value = "购买数量")
-    private Integer num;
-
-    @ApiModelProperty(value = "商品描述")
-    private String picture ;
 
 }

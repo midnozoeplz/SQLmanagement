@@ -57,7 +57,7 @@ public class AutoCode {
           * @Return
           * @Date 2022/1/21 1:03
           */
-        strategy.setInclude("product","user_product");   //设置要映射的表名,只需改这里即可
+        strategy.setInclude("order_id_Product_id");   //设置要映射的表名,只需改这里即可
 
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);

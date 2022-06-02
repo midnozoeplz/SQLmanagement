@@ -7,7 +7,7 @@
                 #{credentialsNonExpired})
     </insert>
     <insert id="setRole" parameterType="integer">
-        insert into user_role(uid, rid)
+        insert into sys_user_role(uid, rid)
         VALUES (#{uid}, 3)
     </insert>
 

@@ -36,9 +36,11 @@ public class UserProductServiceImpl extends ServiceImpl<UserProductMapper, UserP
     public void addToShopping(UserProduct userProduct){
 
         QueryWrapper<UserProduct> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(UserProduct::getUserid,userProduct.getUserid()).eq(UserProduct::getProductId,userProduct.getProductId());
+//        queryWrapper.lambda().eq(UserProduct::getUserid,userProduct.getUserid()).eq(UserProduct::getProductId,userProduct.getProductId());
+        queryWrapper.lambda().eq(UserProduct::getId,userProduct.getId());
         UserProduct product = userProductMapper.selectOne(queryWrapper);
-        System.out.println(product);
+//        System.out.println(product);
+//        System.out.println(userProduct);
         if(ObjectUtils.isNotEmpty(product)){
             // 复杂写法
 //            UpdateWrapper<UserProduct> updateWrapper = new UpdateWrapper<>();

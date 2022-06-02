@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ import java.util.List;
  * @Date 2022/5/23 0:13
  */
 @SpringBootTest
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 public class test {
 
     @Autowired
@@ -62,7 +63,8 @@ public class test {
 //                System.out.println(product);
 //            }
 
-        productService.deleteProduct(3);
+        Date date = new Date();
+        System.out.println(date);
     }
 
     @Test

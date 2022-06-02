@@ -65,7 +65,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String redisKey = "login:" + userid;
 ////        System.out.println(redisUtil.getCacheObject(redisKey).getClass());
         AccountUser loginUser =  redisUtil.getCacheObject(redisKey);
-        System.out.println(redisUtil.getCacheObject(redisKey).toString());
         if(Objects.isNull(loginUser)){
             throw new RuntimeException("用户未登录");
        }

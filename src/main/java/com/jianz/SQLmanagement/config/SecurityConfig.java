@@ -76,15 +76,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        builder.userDetailsService(myUserDetailService);
 //    }
 
-//    @Test
-//    public void test(){
-//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Test
+    public void test(){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        System.out.println(passwordEncoder.matches("123456", "$2a$10$LDSSHqs2blvKCFm63/m4/OvymQbuBY9AnYWi/Jxrls96OGI5cKx3a"));
 //        String encode = passwordEncoder.encode("admin");
 //        String encode1 = passwordEncoder.encode("123456");
 //
 //        System.out.println(encode);
 //        System.out.println(encode1);
-//    }
+    }
 
 
     @Override
@@ -109,7 +110,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 配置异常处理器
                 .exceptionHandling()
                 //配置认证失败处理器
-                .authenticationEntryPoint(authenticationEntryPoint)
+            //    .authenticationEntryPoint(authenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler)
 
                 //允许跨域

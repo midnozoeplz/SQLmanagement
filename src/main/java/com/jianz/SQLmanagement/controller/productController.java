@@ -23,7 +23,7 @@ public class productController {
     private ProductServiceImpl productService;
 
     @PostMapping("/product/addOrUpdate")
-    public ResultBody addOrUpdateProduct(@RequestBody Product product){
+    public ResultBody addOrUpdateProduct( Product product){
 
         productService.addOrUpdateProduct(product);
 

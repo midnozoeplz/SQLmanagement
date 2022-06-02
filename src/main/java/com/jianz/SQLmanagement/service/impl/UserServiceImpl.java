@@ -48,6 +48,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
     private RedisUtil redisUtil;
 
     public boolean insertUser(User user) {
+
         User daoUser = userDao.findUser(user.getUsername());
         if (ObjectUtils.isEmpty(daoUser)) {
             String encode = passwordEncoder.encode(user.getPassword());
@@ -79,8 +80,11 @@ public class UserServiceImpl extends ServiceImpl<UserDao,User> implements UserSe
         String jwt = JwtUtils.createJWT(userid);
         Map<String, String> map =  new HashMap<>();
         map.put("token",jwt);
+        map.put("userid",userid);
+        Role role = userDao.getUserAuthorityInfo(Long.parseLong(userid));
+        map.put("role",role.getCode());
         //把完整的用户信息存入redis，userid作为key
-        redisUtil.setCacheObject("login:"+userid,loginUser,1200);
+        redisUtil.setCacheObject("login:"+userid,loginUser,3600);
 
         return ResultBody.success(map);
     }
