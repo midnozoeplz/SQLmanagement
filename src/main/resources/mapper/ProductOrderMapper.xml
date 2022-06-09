@@ -3,10 +3,10 @@
 <mapper namespace="com.jianz.SQLmanagement.dao.ProductOrderMapper">
 
     <select id="getMyOrders" resultType="com.jianz.SQLmanagement.pojo.MyOrder">
-        SELECT product_order.id, orderTime, order_id_Product_id.product_id, product_name, price, num
+        SELECT product_order.id, orderTime, order_id_Product_id.product_id, product_name,unit_price as price, num
         from product_order
                  join order_id_Product_id on product_order.id = order_id_Product_id.order_id
-                 join user_product on user_product.product_id = order_id_Product_id.product_id
+                 join product on product.product_id = order_id_Product_id.product_id
         where product_order.userid = #{userid};
 
     </select>
