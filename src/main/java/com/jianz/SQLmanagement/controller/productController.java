@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Jianz
  * @version 1.0
- * @Description admin 对商品展示管理
+ * @Description admin管理员 对商品添加，展示，删除等管理
  * @Email jianz8153.gmail.com
  * @Date 2022/5/28 15:37
  */

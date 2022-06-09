@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * @author Jianz
  * @version 1.0
- * @Description
+ * @Description 对用户注册，登录管理
  * @Email jianz8153.gmail.com
  * @Date 2022/5/21 17:18
  */

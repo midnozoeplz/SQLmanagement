@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ *  添加订单和获取对应用户订单信息
  * </p>
  *
  * @author jianz
