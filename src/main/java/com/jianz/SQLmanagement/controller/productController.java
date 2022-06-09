@@ -7,6 +7,7 @@ import com.jianz.SQLmanagement.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,11 +32,14 @@ public class productController {
     }
 
     @GetMapping("/product/list")
-    public ResultBody getList(){
+    public ResultBody getList(int page,int limit){
 
-        List<Product> list = productService.getList();
-
-        return ResultBody.success(list);
+//        System.out.println(page + " "+ limit);
+        List<Product> list = productService.getList(page,limit);
+        Integer count = productService.getBaseMapper().selectCount(null);
+        ArrayList<Object> objects = new ArrayList<>(list);
+        objects.add(count);
+        return ResultBody.success(objects);
     }
 
     @PostMapping("/product/delete")

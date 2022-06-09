@@ -3,7 +3,7 @@
 <mapper namespace="com.jianz.SQLmanagement.dao.UserDao">
     <insert id="insertUser" parameterType="com.jianz.SQLmanagement.pojo.User">
         insert into sys_user(username, password, status, accountNonExpired, accountNonLocked, credentialsNonExpired)
-        VALUES (#{username}, #{password}, #{status}, #{accountNonExpired}, #{accountNonLocked},
+        VALUES (#{username}, #{password}, 1, #{accountNonExpired}, #{accountNonLocked},
                 #{credentialsNonExpired})
     </insert>
     <insert id="setRole" parameterType="integer">

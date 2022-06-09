@@ -1,6 +1,8 @@
 package com.jianz.SQLmanagement.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jianz.SQLmanagement.dao.ProductMapper;
 import com.jianz.SQLmanagement.pojo.Product;
@@ -47,8 +49,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
       * @Return
       * @Date 2022/5/29 0:26
       */
-    public List<Product> getList(){
-        return  productMapper.selectList(null);
+    public List<Product> getList(int page,int limit){
+        Page<Product> productPage = new Page<>(page,limit);
+        Page<Product> page1 = new LambdaQueryChainWrapper<>(productMapper).page(productPage);
+        return page1.getRecords();
     }
 
      /**

@@ -40,7 +40,7 @@ public class MybatisPlusConfig {
      @Bean
      public MybatisPlusInterceptor mybatisPlusInterceptor() {
          MybatisPlusInterceptor interceptor2 = new MybatisPlusInterceptor();
-         interceptor2.addInnerInterceptor(new PaginationInnerInterceptor(DbType.H2));
+         interceptor2.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
          return interceptor2;
      }
 }
