@@ -193,19 +193,5 @@ npm run e2e
 npm test
 
 
-```
-
-#### 项目源码地址：
-------------------------
-
-码云地址：https://gitee.com/ldhblog/vue-element.git  
-github地址：https://github.com/nmgwap/vue-ManagementPlatform.git  
-
-
-#### 微信公众号
-------------------------  
-
-<img src="/static/wx.jpg"  width = "270" height = "270"/>
-
 
 
