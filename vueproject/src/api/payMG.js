@@ -15,8 +15,8 @@ import { req } from './axiosFun';
 //     })
 //   }
   
-export const task_list_upload = (formData, tid) => {
-  return axios.post("http://localhost:8080/upload?tid=" + tid,formData)
+export const task_list_upload = (formData) => {
+  return axios.post("http://localhost:8080/upload",formData)
           .then(res => res.data)
 };
 

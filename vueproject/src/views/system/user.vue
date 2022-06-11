@@ -69,10 +69,12 @@
           <el-input size="small" v-model="editForm.unitPrice" placeholder="请输入商品价格"></el-input>
         </el-form-item>
         <el-form-item label="商品描述" prop="picture">
-        <el-input size="small" v-model="editForm.picture"> </el-input>
-          <!-- <template   slot-scope="scope">            
-                            <img :src="scope.row.image"  min-width="70" height="70" />
-                        </template> -->
+        <!-- <el-input size="small" v-model="editForm.picture"> </el-input> -->
+           <template>            
+                 <!--    上传-->
+               <el-button type="primary" @click="fileClick()" size="small">图片上传</el-button>
+          <input type="file" id="fileExport" @change="handleFileChange" ref="inputer" style="display:none">
+           </template> 
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -97,6 +99,7 @@ import {
   deleteProduct,
   addUserProduct
 } from '../../api/userMG'
+import {task_list_upload} from '../../api/payMG'
 import Pagination from '../../components/Pagination'
 export default {
   data() {
@@ -190,6 +193,24 @@ export default {
    * 里面的方法只有被调用才会执行
    */
   methods: {
+    fileClick() {
+      　this.$refs.inputer.dispatchEvent(new MouseEvent('click'))  // 触发input框的click事件
+    },
+    handleFileChange() {
+    // 上传文件
+       var self = this;
+       let inputDOM = self.$refs.inputer;
+       var file = inputDOM.files[0]; // 通过DOM取文件数据
+       var fileName = file.name;
+       this.editForm.picture = "http://localhost:8080/image/" + fileName;
+    
+       let size = Math.floor(file.size / 1024); //计算文件的大小　
+       var formData = new FormData(); // new一个formData事件
+       formData.append("uploadFile", file); // 将file属性添加到formData里
+       task_list_upload(formData).then(res => {
+         console.log(res)
+       })
+    },
     // 获取数据方法
     getdata(parameter) {
       this.loading = true

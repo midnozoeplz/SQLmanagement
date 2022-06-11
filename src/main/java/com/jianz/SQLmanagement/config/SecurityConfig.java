@@ -70,6 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/user/register",
             "/user/login",
             "/img/**",
+            "/upload",
+            "/image/**"
     };
 
 //    @Override
