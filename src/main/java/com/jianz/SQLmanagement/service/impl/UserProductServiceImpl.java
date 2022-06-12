@@ -37,7 +37,7 @@ public class UserProductServiceImpl extends ServiceImpl<UserProductMapper, UserP
 
         QueryWrapper<UserProduct> queryWrapper = new QueryWrapper<>();
 //        queryWrapper.lambda().eq(UserProduct::getUserid,userProduct.getUserid()).eq(UserProduct::getProductId,userProduct.getProductId());
-        queryWrapper.lambda().eq(UserProduct::getId,userProduct.getId());
+        queryWrapper.lambda().eq(UserProduct::getProductId,userProduct.getProductId());
         UserProduct product = userProductMapper.selectOne(queryWrapper);
 //        System.out.println(product);
 //        System.out.println(userProduct);

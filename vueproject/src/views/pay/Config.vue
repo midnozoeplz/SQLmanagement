@@ -182,6 +182,7 @@ export default {
           this.loading = false
           if(res.result.code = '200'){
             this.data = []
+            this.productIdList = []
             for(var i = 0;i<res.result.length;i++){
                 this.data.push(res.result[i])
                 this.productIdList.push(res.result[i].productId)
@@ -277,6 +278,7 @@ export default {
                   message: '商品已删除！'
                 })
                 setTimeout(() => {
+                     this.productIdList.splice(index,1)
                     this.getdata(this.formInline)
                 },1000)
                 
